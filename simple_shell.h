@@ -11,7 +11,7 @@ void execute_command(char *args[]);
  *
  *@s2: reprsents second string
  *
- *@s3: represents third string
+ *@n: represents third string
  *
  *Return: both strings
  */
@@ -36,6 +36,14 @@ int i;
 	}
 }
 
+/**
+ *print_str - custom print function
+ *
+ *@str: string to be printed
+ *
+ *Return: length of function
+ */
+
 int print_str(char *str)
 {
 	if (str == NULL)
@@ -52,38 +60,40 @@ int print_str(char *str)
 	return (len);
 }
 
+/**
+ *execute_command - function that executes
+ *
+ *@args:represents number of arguements
+ *
+ */
+
 void execute_command(char *args[])
 {
 	pid_t id;
 	int status;
 
-	/* step 2g i: Fork a new process */
 	pid = fork();
-	if (pid = -1)
+	if (pid == -1)
 	{
-		printf("Error: Failed to fork(%s)\n", strerror(errno));
+		print_str("Error: Failed to fork(%s)\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 	else if (pid == 0)
 	{
-		/* In the child process */
-
-		/* step 2g ii: Execute he command using execyp() and pass the environment variables */
 
 		if (execyp(args[0], args) == -1)
 		{
-			printf("Error: Failed to execute command (%s)\n", strerror(errno));
+			print_str("Error: Failed to execute command (%s)\n", strerror(errno));
 			exit(EXIT_FAILURE);
 		}
 	}
 	else
 	{
-		/* in the parent */
-		/* step 2g iii: Wait for the child process to finish executing */
 
 		if (waitpid(pid, &statu, 0) == -1)
 		{
-			printf("Erro: Failed to wait for child process (%s)\n", strerror(errno));
+			print_str("Error: Failed to wait for child process (%s)\n",
+					strerror(errno));
 			exit(EXIT_FAILURE);
 		}
 	}
