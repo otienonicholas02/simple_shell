@@ -75,7 +75,7 @@ void execute_command(char *args[])
 	pid = fork();
 	if (pid == -1)
 	{
-		printf("Error: Failed to fork(%s)\n", strerror(errno));
+		print_str("Error: Failed to fork(%s)\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 	else if (pid == 0)
@@ -83,7 +83,7 @@ void execute_command(char *args[])
 
 		if (execyp(args[0], args) == -1)
 		{
-			printf("Error: Failed to execute command (%s)\n", strerror(errno));
+			print_str("Error: Failed to execute command (%s)\n", strerror(errno));
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -92,7 +92,7 @@ void execute_command(char *args[])
 
 		if (waitpid(pid, &statu, 0) == -1)
 		{
-			printf("Error: Failed to wait for child process (%s)\n",
+			print_str("Error: Failed to wait for child process (%s)\n",
 					strerror(errno));
 			exit(EXIT_FAILURE);
 		}
