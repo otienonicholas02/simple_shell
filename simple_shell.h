@@ -1,6 +1,11 @@
 #ifndef _SIMPLE_H
 #define _SIMPLE_H
 
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <errno.h>
+
 int _strncmp(char *s1, char *s2, int n);
 int print_str(char *str);
 void execute_command(char *args[]);
