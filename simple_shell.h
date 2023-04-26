@@ -1,14 +1,20 @@
 #ifndef _SIMPLE_H
 #define _SIMPLE_H
 
-
-
 int _strncmp(char *s1, char *s2, int n);
 int print_str(char *str);
 void execute_command(char *args[]);
-
-
-
+/**
+ *_strncmp - function that compares strings
+ *
+ *@s1: represents first string
+ *
+ *@s2: reprsents second string
+ *
+ *@s3: represents third string
+ *
+ *Return: both strings
+ */
 int _strncmp(char *s1, char *s2, int n)
 {
 	int i;
