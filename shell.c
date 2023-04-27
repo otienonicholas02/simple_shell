@@ -14,7 +14,6 @@ int main(int ac, char **av)
 	(void) ac;
 
 	signal(SIGINT, handl_sigint);
-	/*open_console();*/
 	init_cmd(&cmd, av);
 	rep_loop(&cmd);
 	free_cmd(&cmd);
