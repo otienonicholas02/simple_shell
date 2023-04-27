@@ -1,54 +1,37 @@
-#include <errno.h>
-#include "simple_shell.h"
-#define MAX_INPUT_LENGH 1024
-#define MAX_ARGS 64
+#include "shell.h"
+#include "simple_shell.c"
+#include "convert_specifiers.c"
+#include "convert_specifiers2.c"
+#include "convert_specifiers3.c"
+#include "get_that_line.c"
+#include "malloc_functions.c"
+#include "functions.c"
+#include "separators.c"
+#include "handle_exec.c"
+#include "pid_functs.c"
+#include "built_ins.c"
+#include "handle_errors.c"
+
+
+
+
 /**
- *main - represents the start code
+ * main - Entry point of the shell
  *
- *Return: (0) for success
+ * @ac: Argument count
+ * @av: Argument vector
+ *
+ * Return: ....
  */
-int main(void)
+int main(int ac, char **av)
 {
-	char *input;
-	char *args[MAX_ARGS];
-	int num_args;
+	cmd_t cmd;
+	(void) ac;
 
-	do {
-		print_str("my-shell$ ");
-		input = my_getline();
-		if (input == NULL)
-		{
-			print_str("Exiting my-shell\n");
-			exit(EXIT_SUCCESS);
-		}
-			if (strlen(input) <= 1 || input[0] == '\n'
-					{
-					free(input);
-					continue;
-					}
-
-					num_args = 0;
-					args[num - args] = strtok(input, " \t\n");
-					while (args[num_args] != NULL && num_args < MAX_ARGS - 1)
-					{
-					num_args++;
-					args[num_args] = strtok(NULL, " \T\N");
-					}
-					args[num_args] = NULL;
-					if (num_args == 0)
-					{
-					free(input);
-					continue;
-					}
-					if (_strncmp(args[0], "cd") == 0)
-					{
-						cd(args[1]);
-						continue;
-					}
-					execute_command(args);
-					free(input);
-	} while (1);
-	print_str("EXITING my-shell\n");
-	exit(EXIT_SUCCES);
+	signal(SIGINT, handl_sigint);
+	init_cmd(&cmd, av);
+	rep_loop(&cmd);
+	free_cmd(&cmd);
+	return (cmd.status);
 }
 
