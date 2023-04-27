@@ -1,5 +1,5 @@
-#ifndef SHELL_H
-#define SHELL_H
+#ifndef _SIMPLE_SHELL_H
+#define _SIMPLE_SHELL_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -60,17 +60,17 @@ char *_strtok(char *strn, const char *delim);
 void handl_sigint(int sig);
 char *handl_comment(char *input);
 int execution(cmd_t *cmd);
-void rep_loop();
+void rep_loop(cmd_t *cmd);
 int cmd_exec(cmd_t *cmd);
 int check_dir_access(char *dir, cmd_t *cmd);
 int apply_seperators(cmd_t *cmd, char *input);
 
-/* ------------------ENVIRONMENT----------------- */
+
 char *_which(char *cmd, char **_environ);
 int _env(cmd_t *cmd);
 char *_getenv(const char *name, char **_environ);
 
-/* ------------------BUILTINS----------------- */
+
 /**
  * struct builtins - struct contain func name
  * @name: name of the function
@@ -91,14 +91,14 @@ int _setenv(cmd_t *cmd);
 void set_env(char *name, char *value, cmd_t *cmd);
 int _unsetenv(cmd_t *cmd);
 int get_help(cmd_t *cmd);
-/*---change directory----*/
+
 int cd_path(char *dir, cmd_t *cmd);
 int cd_parent(cmd_t *cmd);
 int cd_curr(cmd_t *cmd);
 int cd_back(cmd_t *cmd);
 int cd_home(cmd_t *cmd);
 
-/* ----------------LINKEDLIST ------------ */
+
 /**
  * struct list_s - linked list
  * @var_len: length of the variable
@@ -139,7 +139,7 @@ typedef struct line_s
 	struct line_s *next;
 } line_t;
 
-/* ------------------STRING PARSER----------------- */
+
 int _isdigit(const char *str);
 char **get_toks(char *args, char *delimiter);
 void str_reverse(char *s);
@@ -159,36 +159,35 @@ int get_len(int n);
 char *_itoa(int n);
 char *copy_info(char *name, char *value);
 
-/* ------------------MEMORY----------------- */
+
 void free_grid(char **grid, int height);
 void free_cmd(cmd_t *cmd);
 
-/* aux_lists.c */
+
 sep_t *add_sep_node_end(sep_t **head, char sep);
 void free_sep_list(sep_t **head);
 line_t *add_line_node_end(line_t **head, char *line);
 void free_line_list(line_t **head);
 
-/* aux_lists2.c */
 list_t *add_node_end(list_t **head, int var_len, char *val, int len_val);
 void free_list(list_t **head);
 
-/* aux_help.c */
+
 void aux_help_env(void);
 void aux_help_setenv(void);
 void aux_help_unsetenv(void);
 void aux_help_general(void);
 void aux_help_exit(void);
 
-/* aux_help2.c */
+
 void aux_help(void);
 void aux_help_alias(void);
 void aux_help_cd(void);
 
-/* get_help.c */
+
 int get_help(cmd_t *cmd);
 
-/* check_syntax_error.c */
+/* syntax_errors prototypes */
 int repeated_char(char *input, int i);
 int error_sep_op(char *input, int i, char last);
 int first_char(char *input, int *i);
@@ -196,4 +195,4 @@ void print_syntax_error(cmd_t *cmd, char *input, int i, int bool);
 int check_syntax_error(cmd_t *cmd, char *input);
 
 
-#endif /* SHELL_H */
+#endif

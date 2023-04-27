@@ -1,13 +1,56 @@
-#include "shell.h"
+#include "simple_shell.h"
 
 /**
- * scan_vars - function for typed varaibles is $$ or $?
+ * evar_check - checks if the typed variable is an env variable
  *
- * @h: reps the linked list
+ * @head: head of linked list
+ * @input: input string
+ * @cmd: global struct variable
+ * Return: no return
+ */
+void evar_check(list_t **head, char *input, cmd_t *cmd)
+{
+	int i, j, k, lval;
+	char **_envr;
+
+	_envr = cmd->envar;
+
+	for (i = 0; _envr[i]; i++)
+	{
+		for (k = 1, j = 0; _envr[i][j]; j++)
+		{
+			if (_envr[i][j] == '=')
+			{
+				lval = _strlen(_envr[i] + j + 1);
+				add_node_end(head, k, _envr[i] + j + 1, lval);
+				return;
+			}
+
+			if (input[k] == _envr[i][j])
+				k++;
+			else
+				break;
+		}
+	}
+
+	for (k = 0; input[k]; k++)
+	{
+		if (input[k] == ' ' || input[k] == '\t' ||
+		input[k] == ';' || input[k] == '\n')
+			break;
+	}
+
+	add_node_end(head, k, NULL, 0);
+}
+
+/**
+ * scan_vars - scans for typed variable is $$ or $?
+ *
+ * @h: head of the linked list
  * @input: input string
  * @status: last status of the Shell
- * @cmd: the data
- * Return: ....
+ * @cmd: data structure
+ * Return: no return
  */
 int scan_vars(list_t **h, char *input, char *status, cmd_t *cmd)
 {
@@ -45,14 +88,11 @@ int scan_vars(list_t **h, char *input, char *status, cmd_t *cmd)
 	return (i);
 }
 
-
-
-
 /**
- * replaced_input - function replaces input
+ * replaced_input - replaces string into variables
  *
- * @head: reps linked list
- * @input: input
+ * @head: head of the linked list
+ * @input: input string
  * @new_input: new input string (replaced)
  * @nlen: new length
  * Return: replaced string
@@ -60,9 +100,7 @@ int scan_vars(list_t **h, char *input, char *status, cmd_t *cmd)
 char *replaced_input(list_t **head, char *input, char *new_input, int nlen)
 {
 	list_t *indx;
-	int i;
-	int j;
-	int k;
+	int i, j, k;
 
 	indx = *head;
 	for (j = i = 0; i < nlen; i++)
@@ -103,59 +141,12 @@ char *replaced_input(list_t **head, char *input, char *new_input, int nlen)
 }
 
 /**
- *evar_check - typed var is an env
+ * parse_input - replaces string into variables
  *
- *@head: linked list
- *@input: input sting
- *@cmd: struct varaiable
- *Return: ...
+ * @input: input string
+ * @cmd: data structure
+ * Return: the new string
  */
-
-void evar_check(list_t **head, char *input, cmd_t *cmd)
-{
-	char **_env;
-	int i, j, k, val;
-
-	_env = cmd->envar;
-
-	for (i = 0; _env[i]; i++)
-	{
-		for (k = 1, j = 0; _env[i][j]; j++)
-		{
-			if (_env[i][j] == '=')
-			{
-				val = _strlen(_env[i] + j + 1);
-				add_node_end(head, k, _env[i] + j + 1, val);
-				return;
-			}
-			if (input[k] == _env[i][j])
-				k++;
-			else
-				break;
-		}
-	}
-
-	for (k = 0; input[k]; k++)
-	{
-		if (input[k] == ' ' || input[k] == '\t' ||
-		input[k] == ';' || input[k] == '\n')
-			break;
-	}
-
-	add_node_end(head, k, NULL, 0);
-}
-
-
-/**
- *parse_input - function variable
- *
- *@input:the string
- *
- *@cmd: the structure
- *
- *Return: new string
- */
-
 char *parse_input(char *input, cmd_t *cmd)
 {
 	list_t *head, *tmp;

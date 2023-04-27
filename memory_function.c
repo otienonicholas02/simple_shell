@@ -1,4 +1,5 @@
-#include "shell.h"
+#include "simple_shell.h"
+
 /**
  * _memcpy - copies information between void pointers.
  * @newptr: destination pointer.

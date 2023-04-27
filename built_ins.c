@@ -1,126 +1,93 @@
-#include "shell.h"
+#include "simple_shell.h"
 
 /**
- * c_dir - changes current directory
+ * get_builtin - checks for builtins and returns the
+ *     associated function
  *
- * @cmd: data relevant
- * Return: 1 on success
+ * @input: the input string
+ * Return: the function if found
  */
-
-int c_dir(cmd_t *cmd)
+int (*get_builtin(char *input))(cmd_t *)
 {
-	char *args = cmd->args[1];
+	int i = 0;
 
-	if (!args || !_strcmp(args, "~") || !_strcmp(args, "$HOME")
-	|| !_strcmp(args, "--"))
-		return (cd_home(cmd));
-	else if (!_strcmp(args, "-"))
-		return (cd_back(cmd));
-	else if (!_strcmp(args, "."))
-		return (cd_curr(cmd));
-	else if (!_strcmp(args, ".."))
-		return (cd_parent(cmd));
+	built_t builtin[] = {
+		{ "env", _env },
+		{ "exit", exit_sh },
+		{ "setenv", _setenv },
+		{ "unsetenv", _unsetenv },
+		{ "cd", c_dir },
+		{ "help", get_help },
+		{ NULL, NULL }
+	};
+
+	for (i = 0; builtin[i].name; i++)
+	{
+		if (!_strcmp(builtin[i].name, input))
+			break;
+	}
+	return (builtin[i].f);
+}
+
+/**
+ * get_help - function that retrieves help messages according builtin
+ * @cmd: data structure (args and input)
+ * Return: Return 0
+*/
+int get_help(cmd_t *cmd)
+{
+
+	if (cmd->args[1] == 0)
+		aux_help_general();
+	else if (_strcmp(cmd->args[1], "setenv") == 0)
+		aux_help_setenv();
+	else if (_strcmp(cmd->args[1], "env") == 0)
+		aux_help_env();
+	else if (_strcmp(cmd->args[1], "unsetenv") == 0)
+		aux_help_unsetenv();
+	else if (_strcmp(cmd->args[1], "help") == 0)
+		aux_help();
+	else if (_strcmp(cmd->args[1], "exit") == 0)
+		aux_help_exit();
+	else if (_strcmp(cmd->args[1], "cd") == 0)
+		aux_help_cd();
+	else if (_strcmp(cmd->args[1], "alias") == 0)
+		aux_help_alias();
 	else
-		return (cd_path(args, cmd));
-}
+		write(STDERR_FILENO, cmd->args[0],
+			_strlen(cmd->args[0]));
 
-/**
- * set_env - sets an environment variable
- *
- * @name: name of the environment variable
- * @value: value of the environment variable
- * @cmd: data structure (environ)
- * Return: no return
- */
-void set_env(char *name, char *value, cmd_t *cmd)
-{
-	int i;
-	char *var_env, *name_env;
-
-	for (i = 0; cmd->envar[i]; i++)
-	{
-		var_env = _strdup(cmd->envar[i]);
-		name_env = _strtok(var_env, "=");
-		if (_strcmp(name_env, name) == 0)
-		{
-			free(cmd->envar[i]);
-			cmd->envar[i] = copy_info(name_env, value);
-			free(var_env);
-			return;
-		}
-		free(var_env);
-	}
-
-	cmd->envar = _reallocdp(cmd->envar, i, sizeof(char *) * (i + 2));
-	cmd->envar[i] = copy_info(name, value);
-	cmd->envar[i + 1] = NULL;
-}
-
-/**
- * _setenv - compares env variables names
- * with the name passed.
- * @cmd: data relevant (env name and env value)
- *
- * Return: 1 on success.
- */
-int _setenv(cmd_t *cmd)
-{
-
-	if (cmd->args[1] == NULL || cmd->args[2] == NULL)
-	{
-		return (1);
-	}
-
-	set_env(cmd->args[1], cmd->args[2], cmd);
-
+	cmd->status = 0;
 	return (1);
 }
 
 /**
- * _unsetenv - deletes a environment variable
+ * exit_sh - exits the shell
  *
- * @cmd: data relevant (env name)
- *
- * Return: 1 on success.
+ * @cmd: struct of global variables
+ * Return: 0 on success.
  */
-int _unsetenv(cmd_t *cmd)
+int exit_sh(cmd_t *cmd)
 {
-	char **realloc_envar;
-	char *var_env, *name_env;
-	int i, j, k;
+	unsigned int ustatus = 0;
+	int is_digit = 0;
+	int str_len = 0;
+	int big_number = 0;
 
-	if (cmd->args[1] == NULL)
+	if (cmd->args[1])
 	{
-		return (1);
-	}
-	k = -1;
-	for (i = 0; cmd->envar[i]; i++)
-	{
-		var_env = _strdup(cmd->envar[i]);
-		name_env = _strtok(var_env, "=");
-		if (_strcmp(name_env, cmd->args[1]) == 0)
+		ustatus = _atoi(cmd->args[1]);
+		is_digit = _isdigit(cmd->args[1]);
+		str_len = _strlen(cmd->args[1]);
+		big_number = ustatus > (unsigned int)INT_MAX;
+		if (!is_digit || str_len > 10 || big_number)
 		{
-			k = i;
+			t_error("Invalid exit status");
+			cmd->status = 2;
 		}
-		free(var_env);
+		cmd->status = (ustatus % 256);
+		cmd->ready = 0;
 	}
-	if (k == -1)
-	{
-		return (1);
-	}
-	realloc_envar = malloc(sizeof(char *) * (i));
-	for (i = j = 0; cmd->envar[i]; i++)
-	{
-		if (i != k)
-		{
-			realloc_envar[j] = cmd->envar[i];
-			j++;
-		}
-	}
-	realloc_envar[j] = NULL;
-	free(cmd->envar[k]);
-	free(cmd->envar);
-	cmd->envar = realloc_envar;
-	return (1);
+	cmd->ready = 0;
+	return (0);
 }
-

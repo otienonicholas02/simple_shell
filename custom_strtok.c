@@ -1,30 +1,7 @@
-#include "shell.h"
+#include "simple_shell.h"
 
 /**
- *_readwrite - reads the string
- *
- *@is_eof: return value of getline
- *
- *@status: interactiveness
- *
- *Return: input string
- */
-
-char *_readwrite(int status, int *is_eof)
-{
-	char *buffer = NULL;
-	size_t buffsize = 0;
-
-	prompt(status);
-
-	*is_eof = getline(&buffer, &buffsize, stdin);
-
-	return (buffer);
-}
-
-
-/**
- * _strtok - tokenize a string
+ * _strtok - tokeniation of string
  *
  * @strn: string to operate
  * @delimiter: delimiter

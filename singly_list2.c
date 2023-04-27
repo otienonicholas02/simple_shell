@@ -1,10 +1,9 @@
-#include "shell.h"
-
+#include "simple_shell.h"
 
 /**
- * add_node_end - adds a node
- * @head: head of a list.
- * @var_len: len of variable.
+ * add_node_end - adds a node to end list.
+ * @head: head of the linked list.
+ * @var_len: length of the variable.
  * @val: value of the variable.
  * @len_val: length of the value.
  * Return: address of the head.
@@ -39,13 +38,11 @@ list_t *add_node_end(list_t **head, int var_len, char *val, int len_val)
 	return (*head);
 }
 
-
 /**
- * free_list - frees a list
- * @head: linked list head.
- * Return: ....
+ * free_list - frees a list_t list
+ * @head: head of the linked list.
+ * Return: no return.
  */
-
 void free_list(list_t **head)
 {
 	list_t *temp;

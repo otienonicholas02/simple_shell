@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "simple_shell.h"
 
 /**
  * swap_char - swaps | and & for non-printed chars
@@ -130,6 +130,8 @@ void go_next(sep_t **list_s, line_t **list_l, cmd_t *cmd)
  * @input: input string
  * Return: 0 to exit, 1 to continue
  */
+
+
 int apply_seperators(cmd_t *cmd, char *input)
 {
 
