@@ -1,11 +1,11 @@
 #include "simple_shell.h"
 
 /**
- * _readwrite - reads the input string.
+ * _readwrite- input string.
  *
  * @is_eof: return value of getline function
- * @status: determines if the shell is interactive
- * Return: the input string.
+ * @status: is interactive
+ * Return:.....
  */
 char *_readwrite(int status, int *is_eof)
 {
