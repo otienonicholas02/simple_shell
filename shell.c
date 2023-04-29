@@ -14,7 +14,7 @@ int main(int ac, char **av)
 	(void) ac;
 
 	signal(SIGINT, handl_sigint);
-	init_cmd(&cmd, av);
+	in_cmd(&cmd, av);
 	_loop(&cmd);
 	free_cmd(&cmd);
 	return (cmd.status);

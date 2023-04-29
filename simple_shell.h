@@ -46,7 +46,7 @@ typedef struct cmd_t
 } cmd_t;
 
 void open_console(void);
-void init_cmd(cmd_t *cmd, char **av);
+void in_cmd(cmd_t *cmd, char **av);
 void prompt(int status);
 void t_error(char *s);
 int _fork(void);

@@ -1,15 +1,16 @@
 #include "simple_shell.h"
 
 /**
- * init_cmd - initialize shell vars
- * @cmd: struct contain shell global vars
- * @av: argv
+ * init_cmd - initializes the commands
+ * @cmd:global struct
+ * @av: contains the argv counter
  *
- * Return: no return
+ * Return: ...
  */
-void init_cmd(cmd_t *cmd, char **av)
+
+void in_cmd(cmd_t *cmd, char **av)
 {
-	int i = 0;
+	int i;
 
 	cmd->input = NULL;
 	cmd->mode = EXEC;
@@ -18,15 +19,25 @@ void init_cmd(cmd_t *cmd, char **av)
 	cmd->status = 0;
 	cmd->av = av;
 	cmd->counter = 1;
+	cmd->counter = 1;
 	cmd->pid = _itoa(getpid());
 
-	for (i = 0; environ[i]; i++)
-		;
+	i = 0;
+
+	while (environ[i])
+	{
+		i++;
+	}
 
 	cmd->envar = malloc(sizeof(char *) * (i + 1));
 
-	for (i = 0; environ[i]; i++)
+	i = 0;
+
+	while (environ[i])
+	{
 		cmd->envar[i] = _strdup(environ[i]);
+		i++;
+	}
 
 	cmd->envar[i] = NULL;
 }
