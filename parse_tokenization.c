@@ -1,12 +1,12 @@
 #include "simple_shell.h"
 
 /**
- * evar_check - checks if the typed variable is an env variable
+ * evar_check - checks if it is an env variable
  *
- * @head: head of linked list
- * @input: input string
- * @cmd: global struct variable
- * Return: no return
+ * @head: reps the head
+ * @input: reps the input
+ * @cmd: struct
+ * Return: ....
  */
 void evar_check(list_t **head, char *input, cmd_t *cmd)
 {
@@ -15,9 +15,12 @@ void evar_check(list_t **head, char *input, cmd_t *cmd)
 
 	_envr = cmd->envar;
 
-	for (i = 0; _envr[i]; i++)
+	i = 0;
+
+	while (_envr[i])
 	{
-		for (k = 1, j = 0; _envr[i][j]; j++)
+		j = 0;
+		while (_envr[i][j])
 		{
 			if (_envr[i][j] == '=')
 			{
@@ -27,63 +30,80 @@ void evar_check(list_t **head, char *input, cmd_t *cmd)
 			}
 
 			if (input[k] == _envr[i][j])
+			{
 				k++;
+				j++;
+			}
 			else
+			{
 				break;
+			}
 		}
+		i++;
 	}
 
-	for (k = 0; input[k]; k++)
+	k = 0;
+
+	while (input[k] && !(input[k] == ' ' || input[k] == '\t' || input[k] == ';' || input[k] == '\n'))
 	{
-		if (input[k] == ' ' || input[k] == '\t' ||
-		input[k] == ';' || input[k] == '\n')
-			break;
+		k++;
 	}
 
 	add_node_end(head, k, NULL, 0);
 }
 
+
+
+
+
 /**
- * scan_vars - scans for typed variable is $$ or $?
+ * scan_vars - variable is $$ or $?
  *
  * @h: head of the linked list
- * @input: input string
- * @status: last status of the Shell
- * @cmd: data structure
- * Return: no return
+ * @input: prompt
+ * @status: status of the Shell
+ * @cmd: the data structure
+ * Return: ...
  */
 int scan_vars(list_t **h, char *input, char *status, cmd_t *cmd)
 {
-	int i, j, stlen, pid_len;
+	int j = 0;;
+	int i = 0;
+	int stlen;
+	int pid_len;
 
 	stlen = _strlen(status);
+
 	pid_len = _strlen(cmd->pid);
 
-	for (i = 0, j = 1; input[i]; i++, j++)
-	{
+	do {
 		if (input[i] == '$')
 		{
 			switch (input[j])
 			{
 				case '?':
-					add_node_end(h, 2, status, stlen), i++;
+					add_node_end(h, 2, status, stlen);
+					i++;
 					break;
 				case '$':
-					add_node_end(h, 2, cmd->pid, pid_len), i++;
+					add_node_end(h, 2, cmd->pid, pid_len);
+					i++;
 					break;
 				case ' ':
 				case '\n':
 				case '\0':
-				case ';':
 				case '\t':
+				case ';':
 					add_node_end(h, 0, NULL, 0);
 					break;
 				default:
-					evar_check(h, input + i, cmd);
+					evar_check(h, input + 1, cmd);
 					break;
 			}
 		}
-	}
+		i++;
+		j++;
+	} while (input[i]);
 
 	return (i);
 }
