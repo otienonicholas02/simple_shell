@@ -19,18 +19,18 @@
 extern char **environ;
 
 /**
- * struct cmd_t - shell env vars
- * @mode: determines the mode of execution
- * @args: the arguments to be executed
- * @ready: determines if the shell should run.
- * @status: the status of the last command executed.
- * @av: the argv array
- * @counter: the number of loops.
- * @pid: the pid of the last command executed.
- * @input: the input commands.
- * @envar: the environment variables.
+ * struct cmd_t - reps shell env vars
+ * @mode: represents mode of execution
+ * @args: represents args
+ * @ready: determines if shell is ready
+ * @status: the status command
+ * @av: the argvector
+ * @counter: num of loops.
+ * @pid: pid of the command
+ * @input: prompt.
+ * @envar:env  variables.
  *
- * Description: Struct contain all shell vars.
+ * Description: the struct.
  */
 typedef struct cmd_t
 {
@@ -72,11 +72,11 @@ char *_getenv(const char *name, char **_environ);
 
 
 /**
- * struct builtins - struct contain func name
- * @name: name of the function
- * @f: function to be called when name is invoked
+ * struct builtins - struct
+ * @name: reps the name
+ * @f: represents function
  *
- * Description: struct of func name and its respective func
+ * Description: struct function
  */
 typedef struct builtins
 {
@@ -101,11 +101,11 @@ int cd_home(cmd_t *cmd);
 
 /**
  * struct list_s - linked list
- * @var_len: length of the variable
- * @val: value of the variable
- * @len_val: length of the value
- * @next: next node
- * Description: single linked list to store variables
+ * @var_len: ...
+ * @val: ...
+ * @len_val:...
+ * @next: ....
+ * Description: store variables
  */
 typedef struct list_s
 {
@@ -116,9 +116,9 @@ typedef struct list_s
 } list_t;
 
 /**
- * struct sep_s - single linked list
- * @sep: serperator (; or | or &)
- * @next: pointer to next node
+ * struct sep_s - ...
+ * @sep: serperator
+ * @next: pointer to node
  * Description: linked list holding the seperators
  */
 typedef struct sep_s
@@ -128,10 +128,10 @@ typedef struct sep_s
 } sep_t;
 
 /**
- * struct line_s - single linked list
- * @line: command line
- * @next: next node
- * Description: single linked list to store command lines
+ * struct line_s - linked list
+ * @line: line
+ * @next: ....
+ * Description: command lines
  */
 typedef struct line_s
 {
@@ -187,7 +187,7 @@ void aux_help_cd(void);
 
 int get_help(cmd_t *cmd);
 
-/* syntax_errors prototypes */
+/* prototypes */
 int repeated_char(char *input, int i);
 int error_sep_op(char *input, int i, char last);
 int first_char(char *input, int *i);
