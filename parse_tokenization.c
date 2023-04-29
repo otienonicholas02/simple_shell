@@ -52,10 +52,6 @@ void evar_check(list_t **head, char *input, cmd_t *cmd)
 	add_node_end(head, k, NULL, 0);
 }
 
-
-
-
-
 /**
  * scan_vars - variable is $$ or $?
  *
@@ -67,7 +63,7 @@ void evar_check(list_t **head, char *input, cmd_t *cmd)
  */
 int scan_vars(list_t **h, char *input, char *status, cmd_t *cmd)
 {
-	int j = 0;;
+	int j = 0;
 	int i = 0;
 	int stlen;
 	int pid_len;
@@ -109,63 +105,66 @@ int scan_vars(list_t **h, char *input, char *status, cmd_t *cmd)
 }
 
 /**
- * replaced_input - replaces string into variables
+ * replaced_input -string to variable
  *
- * @head: head of the linked list
- * @input: input string
- * @new_input: new input string (replaced)
- * @nlen: new length
- * Return: replaced string
+ * @head:reps the head of the list
+ * @input:prompt
+ * @new_input: new input
+ * @nlen: length
+ * Return: ....
  */
 char *replaced_input(list_t **head, char *input, char *new_input, int nlen)
 {
-	list_t *indx;
-	int i, j, k;
+	list_t *index;
+	int i = 0;
 
-	indx = *head;
-	for (j = i = 0; i < nlen; i++)
-	{
+	int j = 0;
+
+	int k;
+
+	index = *head;
+
+	do {
 		if (input[j] == '$')
 		{
-			if (!(indx->var_len) && !(indx->len_val))
+			if (!(index->var_len) && !(index->len_val))
 			{
-				new_input[i] = input[j];
-				j++;
+				new_input[i++] = input[j++];
 			}
-			else if (indx->var_len && !(indx->len_val))
+			else if (index->var_len && !(index->len_val))
 			{
-				for (k = 0; k < indx->var_len; k++)
+				for (k = 0; k < index->var_len; k++)
+				{
 					j++;
+				}
 				i--;
 			}
 			else
 			{
-				for (k = 0; k < indx->len_val; k++)
+				for (k = 0; k < index->len_val; k++)
 				{
-					new_input[i] = indx->val[k];
-					i++;
+					new_input[i++] = index->val[k];
 				}
-				j += (indx->var_len);
+				j += (index->var_len);
 				i--;
 			}
-			indx = indx->next;
+			index = index->next;
 		}
 		else
 		{
-			new_input[i] = input[j];
-			j++;
+			new_input[i++] = input[j++];
 		}
-	}
+	} while (j < nlen);
 
 	return (new_input);
 }
 
 /**
- * parse_input - replaces string into variables
+ * parse_input - string into variables
  *
- * @input: input string
- * @cmd: data structure
- * Return: the new string
+ * @input: prompt
+ * @cmd: the data
+ * Return: ....
  */
 char *parse_input(char *input, cmd_t *cmd)
 {
