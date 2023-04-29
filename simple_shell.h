@@ -60,7 +60,7 @@ char *_strtok(char *strn, const char *delim);
 void handl_sigint(int sig);
 char *handl_comment(char *input);
 int execution(cmd_t *cmd);
-void rep_loop(cmd_t *cmd);
+void _loop(cmd_t *cmd);
 int cmd_exec(cmd_t *cmd);
 int check_dir_access(char *dir, cmd_t *cmd);
 int apply_seperators(cmd_t *cmd, char *input);

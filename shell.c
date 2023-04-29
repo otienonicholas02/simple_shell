@@ -3,10 +3,10 @@
 /**
  * main - Entry point of the shell
  *
- * @ac: Argument count
- * @av: Argument vector
+ * @ac: A count
+ * @av: A vector
  *
- * Return: the (int)value of status.
+ * Return: (0) or (1) for success or failure.
  */
 int main(int ac, char **av)
 {
@@ -15,27 +15,27 @@ int main(int ac, char **av)
 
 	signal(SIGINT, handl_sigint);
 	init_cmd(&cmd, av);
-	rep_loop(&cmd);
+	_loop(&cmd);
 	free_cmd(&cmd);
 	return (cmd.status);
 }
 
 /**
- * rep_loop - read-eval-print loop of shell
+ * _loop - function that loops the shell
  * @cmd: data relevant (av, input, args)
  *
- * Return: no return.
+ * Return: .....
  */
-void rep_loop(cmd_t *cmd)
+void _loop(cmd_t *cmd)
 {
 	int loop;
 	int i_eof;
 	char *input;
 
 	loop = 1;
-	while (loop == 1)
-	{
-		input =  _readwrite(1, &i_eof);
+
+	do {
+		input = _readwrite(1, &i_eof);
 		if (i_eof != -1)
 		{
 			input = handl_comment(input);
@@ -59,5 +59,5 @@ void rep_loop(cmd_t *cmd)
 			loop = 0;
 			free(input);
 		}
-	}
+	}  while (loop == 1);
 }

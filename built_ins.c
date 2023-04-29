@@ -1,11 +1,10 @@
 #include "simple_shell.h"
 
 /**
- * get_builtin - checks for builtins and returns the
- *     associated function
+ * get_builtin - checks for builtins
  *
- * @input: the input string
- * Return: the function if found
+ * @input: input for  string
+ * Return: ...
  */
 int (*get_builtin(char *input))(cmd_t *)
 {
@@ -30,9 +29,9 @@ int (*get_builtin(char *input))(cmd_t *)
 }
 
 /**
- * get_help - function that retrieves help messages according builtin
- * @cmd: data structure (args and input)
- * Return: Return 0
+ * get_help -  retrieves help messages builtin
+ * @cmd: data structure
+ * Return:...
 */
 int get_help(cmd_t *cmd)
 {
@@ -62,9 +61,9 @@ int get_help(cmd_t *cmd)
 }
 
 /**
- * exit_sh - exits the shell
+ * exit_sh - exits shell
  *
- * @cmd: struct of global variables
+ * @cmd: global variables
  * Return: 0 on success.
  */
 int exit_sh(cmd_t *cmd)
