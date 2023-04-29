@@ -1,10 +1,10 @@
 #include "simple_shell.h"
 
 /**
- * _env - prints the evironment variables
+ * _env - environment variables
  *
- * @cmd: global struct variable.
- * Return: EXIT_SUCCESS on success.
+ * @cmd: struct variable.
+ * Return: ....
  */
 int _env(cmd_t *cmd)
 {
@@ -26,12 +26,11 @@ int _env(cmd_t *cmd)
 
 
 /**
- * cmp_env_name - compares env variables names
- * with the name passed.
- * @nenv: name of the environment variable
- * @name: name passed
+ * cmp_env_name - compares variables
+ * @nenv: env name
+ * @name: passed name
  *
- * Return: 0 if are not equal. Another value if they are.
+ * Return: ....
  */
 int cmp_env_name(const char *nenv, const char *name)
 {
@@ -49,12 +48,11 @@ int cmp_env_name(const char *nenv, const char *name)
 }
 
 /**
- * _getenv - get an environment variable
- * @name: name of the environment variable
- * @_environ: environment variable
+ * _getenv - env variable
+ * @name: name
+ * @_environ: envariable
  *
- * Return: value of the environment variable if is found.
- * In other case, returns NULL.
+ * Return:...
  */
 char *_getenv(const char *name, char **_environ)
 {
@@ -81,11 +79,11 @@ char *_getenv(const char *name, char **_environ)
 }
 
 /**
- * _which - Append command to corresponding PATH directory
+ * _which - PATH directory
  *
- * @cmd: input data from getline.
- * @_environ: env data
- * Return: the path of the command or NULL if invalid
+ * @cmd: input data.....
+ * @_environ: env
+ * Return:.....
  */
 char *_which(char *cmd, char **_environ)
 {
